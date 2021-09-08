@@ -1,0 +1,63 @@
+server:
+  port: 2003
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 106.15.170.117:8858
+
+  application:
+    name: seata-account
+
+  datasource:
+    # 使用 druid 数据源,方便后面的 seata 代理
+    druid:
+      url: jdbc:mysql://106.15.170.117:3366/seata_account?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+      username: root
+      password: P@ssw0rd
+
+# seata 配置信息
+seata:
+  enabled: true
+  # 当前微服务在 Seat 中的服务名称
+  application-id: ${spring.application.name}
+  # 指定事务组名称,其本质是映射TC节点的ip
+  tx-service-group: my_test_tx_group
+  # 启用代理数据源,0.9版本需要写配置类,1.2这里直接开启就行
+  enable-auto-data-source-proxy: true
+  # 使用 cglib 作为动态代理,不使用 jdk 代理
+  use-jdk-proxy: false
+  # 客户端读取到 SeataServer 配置
+  config:
+    # 指定配置中心属性
+    type: nacos
+    nacos:
+      serverAddr: 106.15.170.117:8858
+      # 从 SEATA_GROUP 配置组中获取之前 config.txt上传上去的配置
+      group: SEATA_GROUP
+      userName: root
+      password: P@ssw0rd
+  # 客户端注册到 Seata服务端配置
+  registry:
+    # 指定配置中心属性
+    type: nacos
+    nacos:
+      # 指定客户端要连接的 Seata 服务端名称
+      application: seata-server
+      # 指定 nacos 注册中心
+      server-addr: 106.15.170.117:8858
+      userName: root
+      password: P@ssw0rd
+
+mybatis:
+  type-aliases-package: com.zb.entity
+  mapper-locations: classpath:mapper/*.xml
+
+# 这个配置其他服务就不需要复制了
+# 这里使用 openfeign 第一次的时候时间会长点,加上这个配置防止报错
+ribbon:
+  # 最大读取数据时间
+  ReadTimeout: 3000
+  # 最大连接时间
+  ConnectTimeout: 3000

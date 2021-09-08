@@ -1,0 +1,22 @@
+server:
+  port: 3377
+
+spring:
+  application:
+    name: nacos-config-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 106.15.170.117:8858   #Nacos服务注册中心地址（本机的写localhost）
+      config:
+        server-addr: 106.15.170.117:8858   #Nacos服务配置中心地址，之前配置的是github地址
+        file-extension: yml   #文件后缀格式
+        namespace: 5bfad706-d3f5-44dc-988c-d90b92b8f448  #Nacos命名空间id（dev下的）
+        group: DEV_GROUP  # Nacos分组
+
+
+#Nacos里的Data Id
+#com=namespace   zb=group   spring.profiles.active=具体包名
+#${prefix}-${spring.profile.active}.${file-extension}
+# ${spring.application.name}-${spring.profile.active}.${file-extension}
+# nacos-config-client-dev.yml

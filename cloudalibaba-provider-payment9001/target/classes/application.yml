@@ -1,0 +1,16 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: nacos-payment-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 106.15.170.117:8858   #配置的Nacos地址（本机的写localhost:8858，服务器的写IP地址）
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'  #将其暴露出来，方便后期做监控

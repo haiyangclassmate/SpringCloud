@@ -1,0 +1,30 @@
+server:
+  port: 3366
+
+spring:
+  application:
+    name: config-client
+  cloud:
+    config: #config客户端配置  （去服务端3344中去找master分支下config-dev.yml的配置文件，配置到客户端本地，因为服务端连接了github,所以就相当于客户端间接通过服务端连上了github，去找上面的配置文件）
+      label: master   #分支名称
+      name: config    #配置文件名称       这三个综合：master分支上的config-dev.yml的配置文件
+      profile: dev    #读取后缀名称       被读取到http://config-3344.com:3344/master/config/dev
+      uri: http://localhost:3344  #配置中心地址
+  #RabbitMQ配置 15672是web管理ui界面端口，5699是MQ访问端口
+  rabbitmq:
+    host: 106.15.170.117
+    port: 5672
+    username: admin
+    password: ok
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka   #服务注册到的eureka地址
+#暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

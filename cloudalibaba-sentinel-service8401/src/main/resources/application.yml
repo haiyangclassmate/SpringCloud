@@ -1,0 +1,30 @@
+server:
+  port: 8401
+
+spring:
+  application:
+    name: cloudalibaba-sentinal-service
+  cloud:
+    nacos:
+      discovery:  # Nacos服务注册中心地址
+        server-addr: 106.15.170.117:8858
+    sentinel:
+      transport:
+        dashboard: localhost:8099  # 客户端访问dashboard的参数,用于发送心跳包,相当于注册了自己
+        # port,指定应用与Sentinel控制台交互的端口，应用本地会起一个改端口占用的HttpServer (http服务)
+        port: 8719 # 接入sentinel的端口,如果8719被占用,默认向上查找,直到找到可用的为止（这个端口是用于限流规 熔断等规则的推送）
+      datasource:
+        ds1:
+          nacos:
+            server-addr: 106.15.170.117:8858
+            dataId: ${spring.application.name}
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
+
+#暴露全部端口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

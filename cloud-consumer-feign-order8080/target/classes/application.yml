@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+
+eureka:
+  client:
+    #不将自己注册进Eureka服务中心，默认为true
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+#没提示不管它，可以设置
+ribbon:
+  #指的是建立连接后从服务器读取到可用资源所用的时间
+  ReadTimeout: 5000
+  #指的是建立连接使用的时间，适用于网络状况正常的情况下，两端连接所用的时间
+  ConnectTimeout: 5000
+#开启日志的feign客户端
+logging:
+  level:
+    #feign日志以什么级别监控哪个接口
+    com.zb.service.PaymentFeignService: debug	#写你们自己的包名
